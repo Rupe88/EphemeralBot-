@@ -1,0 +1,44 @@
+{
+  "name": "ephemeralbot-frontend",
+  "version": "1.0.0",
+  "description": "EphemeralBot Frontend - Discord Bot Dashboard",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@headlessui/react": "^2.2.7",
+    "@heroicons/react": "^2.2.0",
+    "@types/node": "^20.10.5",
+    "@types/react": "^18.2.45",
+    "@types/react-dom": "^18.2.18",
+    "autoprefixer": "^10.4.16",
+    "class-variance-authority": "^0.7.0",
+    "clsx": "^2.0.0",
+    "framer-motion": "^12.23.12",
+    "gsap": "^3.13.0",
+    "lucide-react": "^0.294.0",
+    "next": "14.0.4",
+    "postcss": "^8.4.32",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "tailwindcss": "^3.3.6",
+    "typescript": "^5.3.3"
+  },
+  "devDependencies": {
+    "@tailwindcss/forms": "^0.5.7",
+    "eslint": "^8.56.0",
+    "eslint-config-next": "14.0.4"
+  },
+  "keywords": [
+    "discord",
+    "bot",
+    "dashboard",
+    "ephemeral"
+  ],
+  "author": "EphemeralBot Team",
+  "license": "MIT"
+}
