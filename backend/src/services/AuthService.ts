@@ -38,7 +38,7 @@ export class AuthService {
         client_secret: process.env.DISCORD_CLIENT_SECRET!,
         grant_type: 'authorization_code',
         code,
-        redirect_uri: `${process.env.FRONTEND_URL}/api/auth/callback`,
+        redirect_uri: `${process.env.FRONTEND_URL}/login`,
       }),
       {
         headers: {
@@ -46,10 +46,8 @@ export class AuthService {
         },
       }
     );
-
     return response.data;
   }
-
   // Get Discord user info
   static async getDiscordUser(accessToken: string): Promise<DiscordUser> {
     const response = await axios.get('https://discord.com/api/users/@me', {

@@ -22,30 +22,33 @@ router.get('/login', (req, res) => {
 
 // Discord OAuth callback
 router.get('/callback', async (req, res) => {
+  const code = req.query.code as string;
+  if (!code) {
+    return res.status(400).json({ error: 'No code provided' });
+  }
+
   try {
-    const { code } = req.query;
-
-    if (!code) {
-      return res.redirect(`${process.env.FRONTEND_URL}/login?error=no_code`);
-    }
-
-    // Exchange code for tokens
-    const tokens = await AuthService.exchangeCodeForTokens(code as string);
-
+    // Exchange code for Discord tokens
+    const tokens = await AuthService.exchangeCodeForTokens(code);
     // Get Discord user info
     const discordUser = await AuthService.getDiscordUser(tokens.access_token);
-
-    // Save or update user in database
+    // Save user in DB
     const user = await AuthService.saveUser(discordUser, tokens);
+    // Generate JWT for your app
+    const jwt = AuthService.generateToken(user.discordId);
 
-    // Generate JWT for our app
-    const jwtToken = AuthService.generateToken(user.discordId);
-
-    // Redirect to frontend with token
-    res.redirect(`${process.env.FRONTEND_URL}/dashboard?token=${jwtToken}`);
+    // Return JWT and user info to frontend
+    return res.json({
+      token: jwt,
+      user: {
+        discordId: user.discordId,
+        username: user.username,
+        avatar: user.avatar,
+      },
+    });
   } catch (error) {
-    await ErrorLogger.logError(error as Error, 'auth.callback');
-    res.redirect(`${process.env.FRONTEND_URL}/login?error=auth_failed`);
+    console.error('OAuth callback error:', error);
+    return res.status(401).json({ error: 'auth_failed' });
   }
 });
 
